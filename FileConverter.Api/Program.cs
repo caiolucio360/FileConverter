@@ -14,7 +14,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigins", policy =>
     {
-        policy.AllowAnyOrigin()  // Altere para .WithOrigins("https://example.com") para maior segurança
+        policy.AllowAnyOrigin()  
               .AllowAnyMethod()
               .AllowAnyHeader();
     });
@@ -22,13 +22,11 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddSwagger();
 
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwaggerUI(); // Usa o método de extensão para Swagger UI
+    app.UseSwaggerUI(); 
 }
 
 app.MapConverterEndpoints();
