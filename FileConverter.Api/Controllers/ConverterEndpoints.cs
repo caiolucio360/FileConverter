@@ -15,10 +15,9 @@ namespace FileConverter.Api.Controllers
         {
             var converterGroup = app.MapGroup("api/v1/converter").WithTags("converter");
 
-            converterGroup.MapPost("/base64", async (IValidator<FileUploadModel> validator, [FromForm] FileUploadModel request, IFileConverterService service) =>
+            converterGroup.MapPost("/base64", async ([FromForm] FileUploadModel request, IFileConverterService service, IValidator<FileUploadModel> validator) =>
             {
                 var validationResult = await validator.ValidateAsync(request);
-
                 if (!validationResult.IsValid)
                     return Results.BadRequest(validationResult.ToErrorList());
 
@@ -51,7 +50,7 @@ namespace FileConverter.Api.Controllers
                 if (!validationResult.IsValid)
                     return Results.BadRequest(validationResult.ToErrorList());
 
-                var pdfFile = await service.ConvertToPdfAsync(request.File);
+                var pdfFile = service.ConvertToPdf(request.File);
 
                 return Results.File(pdfFile, "application/pdf", $"{Path.GetFileNameWithoutExtension(request.File.FileName)}.pdf");
             })
