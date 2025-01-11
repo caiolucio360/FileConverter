@@ -2,8 +2,6 @@
 
 Uma API REST em .NET 8 para conversão de arquivos, com suporte para upload de arquivos, validação e autenticação por API Key.
 
-[![.NET](https://github.com/dotnet/dotnet/raw/main/images/dotnet-logo.png)](https://dotnet.microsoft.com/)
-
 ## Descrição
 
 Este projeto demonstra a criação de uma API REST robusta para conversão de arquivos, utilizando o framework .NET 8. Ele oferece:
