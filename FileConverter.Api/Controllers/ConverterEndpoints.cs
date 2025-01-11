@@ -41,7 +41,8 @@ namespace FileConverter.Api.Controllers
                 operation.Description = "Converts a file to base64.";
                 operation.Summary = "Converts a file to base64.";
                 return operation;
-            });
+            })
+            .DisableAntiforgery();
         }
     }
 }
