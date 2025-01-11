@@ -6,9 +6,9 @@ namespace FileConverter.Api.Configuration
     {
         public static void AddSwagger(this IServiceCollection services)
         {
+            services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(options =>
             {
-                services.AddEndpointsApiExplorer();
                 options.EnableAnnotations();
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
@@ -17,7 +17,6 @@ namespace FileConverter.Api.Configuration
                     Description = "API para conversão de arquivos, protegida com API Key.",
                 });
 
-                // Adiciona a configuração de segurança para API Key
                 options.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
                 {
                     Description = "API Key deve ser informada no cabeçalho usando o formato: 'x-api-key: {API_KEY}'",
@@ -27,7 +26,6 @@ namespace FileConverter.Api.Configuration
                     Scheme = "ApiKeyScheme"
                 });
 
-                // Exige a API Key para todas as operações
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
@@ -54,7 +52,7 @@ namespace FileConverter.Api.Configuration
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "File Converter API v1");
-                options.RoutePrefix = string.Empty; // Swagger disponível na raiz
+                options.RoutePrefix = string.Empty;
             });
         }
     }
