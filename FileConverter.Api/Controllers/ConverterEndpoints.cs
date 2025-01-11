@@ -1,6 +1,7 @@
 ﻿using FileConverter.Application.Services.FileConverterService;
 using FileConverter.Application.Services.FileConverterService.Models;
 using FileConverter.Domain.Models;
+using FileConverter.Infrastructure.Extensions;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,7 @@ namespace FileConverter.Api.Controllers
                 var validationResult = await validator.ValidateAsync(request);
 
                 if (!validationResult.IsValid)
-                    return Results.BadRequest(validationResult.ToDictionary());
+                    return Results.BadRequest(validationResult.ToErrorList());
 
                 var base64 = await service.ConvertToBase64Async(request.File);
 
@@ -40,6 +41,28 @@ namespace FileConverter.Api.Controllers
             {
                 operation.Description = "Converts a file to base64.";
                 operation.Summary = "Converts a file to base64.";
+                return operation;
+            })
+            .DisableAntiforgery();
+
+            converterGroup.MapPost("/pdf", async (IValidator<FileUploadModel> validator, [FromForm] FileUploadModel request, IFileConverterService service) =>
+            {
+                var validationResult = await validator.ValidateAsync(request);
+                if (!validationResult.IsValid)
+                    return Results.BadRequest(validationResult.ToErrorList());
+
+                var pdfFile = await service.ConvertToPdfAsync(request.File);
+
+                return Results.File(pdfFile, "application/pdf", $"{Path.GetFileNameWithoutExtension(request.File.FileName)}.pdf");
+            })
+            .WithName("ConvertToPdf")
+            .Accepts<FileUploadModel>(multipartContenType)
+            .Produces(StatusCodes.Status200OK)
+            .ProducesValidationProblem()
+            .WithOpenApi(operation =>
+            {
+                operation.Description = "Converts a file to PDF.";
+                operation.Summary = "Converts a file to PDF.";
                 return operation;
             })
             .DisableAntiforgery();
