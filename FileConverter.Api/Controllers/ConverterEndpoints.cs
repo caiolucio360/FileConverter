@@ -1,6 +1,6 @@
-﻿using FileConverter.Api.Models;
-using FileConverter.Application.Services.FileConverterService;
+﻿using FileConverter.Application.Services.FileConverterService;
 using FileConverter.Application.Services.FileConverterService.Models;
+using FileConverter.Domain.Models;
 using FluentValidation;
 
 namespace FileConverter.Api.Controllers
@@ -33,7 +33,13 @@ namespace FileConverter.Api.Controllers
             .WithName("ConvertToBase64")
             .Accepts<FileUploadModel>(jsonContenType)
             .Produces<FileUploadModel>(StatusCodes.Status200OK)
-            .ProducesValidationProblem();
+            .ProducesValidationProblem()
+            .WithOpenApi(operation =>
+            {
+                operation.Description = "Converts a file to base64.";
+                operation.Summary = "Converts a file to base64.";
+                return operation;
+            });
         }
     }
 }

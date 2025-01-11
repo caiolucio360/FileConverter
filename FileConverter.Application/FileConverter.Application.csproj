@@ -15,4 +15,8 @@
     <ProjectReference Include="..\FileConverter.Domain\FileConverter.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Options\" />
+  </ItemGroup>
+
 </Project>

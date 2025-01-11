@@ -1,13 +1,12 @@
 using FileConverter.Api.Configuration;
 using FileConverter.Api.Controllers;
-using FileConverter.Api.Middleware;
 using FileConverter.Infrastructure.Extensions;
+using FileConverter.Infrastructure.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddSwaggerGen();
 builder.Services.AddApplicationServices();
 builder.Services.AddValidatorServices();
 

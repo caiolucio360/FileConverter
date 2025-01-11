@@ -1,4 +1,7 @@
-﻿namespace FileConverter.Api.Middleware
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+
+namespace FileConverter.Infrastructure.Middleware
 {
     public class ApiKeyMiddleware
     {
@@ -15,14 +18,14 @@
         {
             if (!context.Request.Headers.TryGetValue("x-api-key", out var extractedApiKey))
             {
-                context.Response.StatusCode = 401; // Unauthorized
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 await context.Response.WriteAsync("API Key é obrigatória.");
                 return;
             }
 
             if (!string.Equals(extractedApiKey, _apiKey))
             {
-                context.Response.StatusCode = 403; // Forbidden
+                context.Response.StatusCode = StatusCodes.Status403Forbidden;
                 await context.Response.WriteAsync("API Key inválida.");
                 return;
             }
