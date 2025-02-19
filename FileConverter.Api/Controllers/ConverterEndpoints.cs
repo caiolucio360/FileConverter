@@ -22,7 +22,7 @@ namespace FileConverter.Api.Controllers
                     return Results.BadRequest(validationResult.ToErrorList());
 
                 var base64 = await service.ConvertToBase64Async(request.File);
-
+//a
                 return Results.Ok(new ApiResponse<FileBase64ViewModel>
                 {
                     Success = true,
